@@ -2,9 +2,9 @@
  * BootstrapValidator (http://bootstrapvalidator.com)
  * The best jQuery plugin to validate form fields. Designed to use with Bootstrap 3
  *
- * @version     v0.5.3, built on 2014-11-05 9:14:18 PM
+ * @version     v0.5.3, built on 2015-09-07 10:10:38 AM
  * @author      https://twitter.com/nghuuphuoc
- * @copyright   (c) 2013 - 2014 Nguyen Huu Phuoc
+ * @copyright   (c) 2013 - 2015 Nguyen Huu Phuoc
  * @license     Commercial: http://bootstrapvalidator.com/license/
  *              Non-commercial: http://creativecommons.org/licenses/by-nc-nd/3.0/
  */
@@ -355,18 +355,7 @@ if (typeof jQuery === 'undefined') {
                                     .css('display', 'none')
                                     .addClass('form-control-feedback')
                                     .attr('data-bv-icon-for', field)
-                                    .insertAfter($field);
-
-                    // Place it after the container of checkbox/radio
-                    // so when clicking the icon, it doesn't effect to the checkbox/radio element
-                    if ('checkbox' === type || 'radio' === type) {
-                        var $fieldParent = $field.parent();
-                        if ($fieldParent.hasClass(type)) {
-                            $icon.insertAfter($fieldParent);
-                        } else if ($fieldParent.parent().hasClass(type)) {
-                            $icon.insertAfter($fieldParent.parent());
-                        }
-                    }
+                                    .insertAfter('checkbox' === type || 'radio' === type ? $field.parent() : $field);
 
                     // The feedback icon does not render correctly if there is no label
                     // https://github.com/twbs/bootstrap/issues/12873

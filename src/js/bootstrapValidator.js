@@ -355,18 +355,7 @@ if (typeof jQuery === 'undefined') {
                                     .css('display', 'none')
                                     .addClass('form-control-feedback')
                                     .attr('data-bv-icon-for', field)
-                                    .insertAfter($field);
-
-                    // Place it after the container of checkbox/radio
-                    // so when clicking the icon, it doesn't effect to the checkbox/radio element
-                    if ('checkbox' === type || 'radio' === type) {
-                        var $fieldParent = $field.parent();
-                        if ($fieldParent.hasClass(type)) {
-                            $icon.insertAfter($fieldParent);
-                        } else if ($fieldParent.parent().hasClass(type)) {
-                            $icon.insertAfter($fieldParent.parent());
-                        }
-                    }
+                                    .insertAfter('checkbox' === type || 'radio' === type ? $field.parent() : $field);
 
                     // The feedback icon does not render correctly if there is no label
                     // https://github.com/twbs/bootstrap/issues/12873
@@ -498,7 +487,7 @@ if (typeof jQuery === 'undefined') {
 
             var options = this.options.fields[field].validators[validatorName];
             switch (true) {
-                case (!!options.message):
+                case (options.message !== undefined):
                     return options.message;
                 case (!!this.options.fields[field].message):
                     return this.options.fields[field].message;
@@ -1216,7 +1205,10 @@ if (typeof jQuery === 'undefined') {
 
                     status = $field.data('bv.result.' + validatorName);
                     if (status !== this.STATUS_VALID) {
-                        return false;
+                        if (status !== this.STATUS_INVALID)
+                            return null;
+                        else
+                            return false;
                     }
                 }
             }
